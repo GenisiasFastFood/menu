@@ -1,0 +1,1148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Genisia's Fast Food</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600;1,700&family=Jost:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg:         #F5EDE3;
+      --bg-alt:     #EDE0D2;
+      --cream:      #FBF6F0;
+      --brown:      #7B4F2E;
+      --brown-dark: #5C3519;
+      --brown-mid:  #9C6B45;
+      --tan:        #C4A882;
+      --btn:        #8B6355;
+      --text:       #4A2E14;
+      --muted:      #A08060;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      background-color: var(--bg);
+      color: var(--text);
+      font-family: 'Jost', sans-serif;
+      overflow-x: hidden;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1.2rem 4rem;
+      background: rgba(245,237,227,0.95);
+      backdrop-filter: blur(14px);
+      border-bottom: 1px solid var(--tan);
+    }
+
+    .nav-logo {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.6rem;
+      font-weight: 700;
+      color: var(--brown-dark);
+      letter-spacing: 0.03em;
+      text-decoration: none;
+      cursor: pointer;
+    }
+    .nav-logo span { font-style: italic; color: var(--brown-mid); }
+
+    .nav-links { display: flex; gap: 0.3rem; list-style: none; }
+    .nav-links a {
+      font-size: 0.82rem;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--muted);
+      text-decoration: none;
+      padding: 0.45rem 1.1rem;
+      border-radius: 30px;
+      transition: color 0.2s, background 0.2s;
+      cursor: pointer;
+    }
+    .nav-links a:hover { color: var(--brown-dark); background: rgba(123,79,46,0.07); }
+    .nav-links a.active {
+      color: var(--brown-dark);
+      background: rgba(123,79,46,0.1);
+      font-weight: 700;
+    }
+
+    .nav-cta {
+      background: var(--btn) !important;
+      color: var(--cream) !important;
+      transition: background 0.2s !important;
+    }
+    .nav-cta:hover { background: var(--brown-dark) !important; }
+    .nav-cta.active { background: var(--brown-dark) !important; color: var(--cream) !important; }
+
+    /* ── PAGES ── */
+    .page { display: none; padding-top: 72px; min-height: 100vh; }
+    .page.active { display: block; animation: pageIn 0.35s ease both; }
+
+    @keyframes pageIn {
+      from { opacity: 0; transform: translateY(16px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ── PAGE: HOME ── */
+    .hero {
+      min-height: calc(100vh - 72px);
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      align-items: center;
+      padding: 3rem 4rem 4rem;
+      position: relative;
+      overflow: hidden;
+      background: var(--bg);
+    }
+    .hero::before {
+      content: '';
+      position: absolute;
+      right: -80px; bottom: -80px;
+      width: 500px; height: 500px;
+      background: radial-gradient(ellipse, rgba(196,168,130,0.2) 0%, transparent 70%);
+      border-radius: 50%;
+      pointer-events: none;
+    }
+
+    .hero-badge {
+      display: inline-block;
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--btn);
+      border: 1px solid var(--tan);
+      padding: 0.3rem 0.9rem;
+      border-radius: 30px;
+      margin-bottom: 1.5rem;
+      animation: fadeUp 0.7s ease both;
+    }
+    .hero-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(3rem, 6.5vw, 6rem);
+      font-weight: 700;
+      line-height: 0.97;
+      color: var(--brown-dark);
+      margin-bottom: 1.6rem;
+      animation: fadeUp 0.8s 0.08s ease both;
+    }
+    .hero-title .accent { font-style: italic; color: var(--brown-mid); }
+    .hero-title .line2 { display: block; margin-left: 2.5rem; }
+    .hero-sub {
+      font-size: 1rem;
+      font-weight: 300;
+      color: var(--muted);
+      line-height: 1.8;
+      max-width: 380px;
+      margin-bottom: 2.5rem;
+      animation: fadeUp 0.9s 0.15s ease both;
+    }
+    .hero-actions { display: flex; gap: 1rem; animation: fadeUp 1s 0.22s ease both; }
+
+    .btn-primary {
+      background: var(--btn);
+      color: var(--cream);
+      font-size: 0.82rem;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      padding: 0.85rem 2rem;
+      text-decoration: none;
+      border-radius: 30px;
+      border: none;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.2s;
+    }
+    .btn-primary:hover { background: var(--brown-dark); transform: translateY(-2px); }
+
+    .btn-ghost {
+      border: 1px solid var(--tan);
+      color: var(--brown);
+      font-size: 0.82rem;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      padding: 0.85rem 2rem;
+      text-decoration: none;
+      border-radius: 30px;
+      background: none;
+      cursor: pointer;
+      transition: border-color 0.2s, background 0.2s;
+    }
+    .btn-ghost:hover { border-color: var(--brown); background: rgba(123,79,46,0.06); }
+
+    .hero-visual {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      align-items: flex-end;
+      padding-right: 2rem;
+      animation: fadeIn 1s 0.3s ease both;
+    }
+    .food-card {
+      background: var(--cream);
+      border: 1px solid var(--tan);
+      border-radius: 12px;
+      padding: 1.3rem 1.6rem;
+      display: flex;
+      align-items: center;
+      gap: 1.2rem;
+      width: 320px;
+      transition: transform 0.3s, box-shadow 0.3s;
+      cursor: pointer;
+    }
+    .food-card:hover { transform: translateX(-8px); box-shadow: 0 8px 28px rgba(123,79,46,0.12); }
+    .food-card:nth-child(2) { margin-right: 2rem; }
+    .food-emoji { font-size: 2rem; flex-shrink: 0; }
+    .food-info h3 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1rem; font-weight: 700;
+      color: var(--brown-dark); margin-bottom: 0.15rem;
+    }
+    .food-info p { font-size: 0.78rem; color: var(--muted); font-weight: 300; }
+    .food-price {
+      margin-left: auto;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.25rem; font-weight: 700; color: var(--brown);
+    }
+
+    .marquee-wrap {
+      background: var(--btn);
+      padding: 0.75rem 0;
+      overflow: hidden;
+      white-space: nowrap;
+    }
+    .marquee-inner {
+      display: inline-block;
+      animation: scroll 22s linear infinite;
+      font-size: 0.8rem; font-weight: 600;
+      letter-spacing: 0.2em; text-transform: uppercase;
+      color: var(--cream);
+    }
+    .marquee-inner span { margin: 0 2.5rem; }
+    .dot { color: var(--tan); }
+
+    .home-about {
+      display: grid;
+      grid-template-columns: 1fr;
+    }
+    .home-about-left {
+      background: var(--cream);
+      padding: 5rem 4rem;
+      display: flex; flex-direction: column; justify-content: center;
+    }
+    .home-about-right {
+      background: var(--bg-alt);
+      padding: 5rem 4rem;
+      display: flex; flex-direction: column; justify-content: center;
+      position: relative; overflow: hidden;
+    }
+    .home-about-right::before {
+      content: 'G';
+      position: absolute;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 26rem; font-weight: 700;
+      color: rgba(196,168,130,0.15);
+      right: -4rem; top: 50%;
+      transform: translateY(-50%);
+      pointer-events: none; line-height: 1;
+    }
+
+    .promise-list { list-style: none; }
+    .promise-list li {
+      display: flex; align-items: flex-start; gap: 1rem;
+      padding: 1.2rem 0;
+      border-bottom: 1px solid var(--tan);
+    }
+    .promise-list li:first-child { border-top: 1px solid var(--tan); }
+    .promise-icon { font-size: 1.2rem; flex-shrink: 0; margin-top: 0.1rem; }
+    .promise-list h4 {
+      font-size: 0.88rem; font-weight: 600;
+      letter-spacing: 0.06em; text-transform: uppercase;
+      color: var(--brown-dark); margin-bottom: 0.2rem;
+    }
+    .promise-list p { font-size: 0.82rem; font-weight: 300; line-height: 1.6; color: var(--muted); }
+
+    .cta-banner {
+      background: var(--brown-dark);
+      padding: 5rem 4rem;
+      display: flex; align-items: center; justify-content: space-between; gap: 2rem;
+    }
+    .cta-banner h2 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2rem, 4vw, 3.5rem); font-weight: 700;
+      color: var(--cream); line-height: 1.1; max-width: 600px;
+    }
+    .cta-banner h2 em { font-style: italic; color: var(--tan); }
+    .cta-actions { display: flex; flex-direction: column; gap: 0.8rem; align-items: flex-end; }
+    .btn-light {
+      background: var(--cream); color: var(--brown-dark);
+      font-size: 0.82rem; font-weight: 700; letter-spacing: 0.14em;
+      text-transform: uppercase; padding: 1rem 2.5rem;
+      text-decoration: none; border-radius: 30px;
+      border: none; cursor: pointer;
+      transition: background 0.2s; white-space: nowrap;
+    }
+    .btn-light:hover { background: var(--bg); }
+    .cta-note {
+      font-size: 0.72rem; font-weight: 500;
+      letter-spacing: 0.12em; text-transform: uppercase; color: var(--tan);
+    }
+
+    /* ── PAGE: MENU ── */
+    .page-hero {
+      background: var(--bg-alt);
+      padding: 4rem 4rem 3rem;
+      border-bottom: 1px solid var(--tan);
+    }
+    .page-hero h1 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2.5rem, 5vw, 4.5rem);
+      font-weight: 700; color: var(--brown-dark); line-height: 1;
+    }
+    .page-hero h1 em { font-style: italic; color: var(--brown-mid); }
+    .page-hero p {
+      margin-top: 0.8rem;
+      font-size: 1rem; font-weight: 300;
+      color: var(--muted); max-width: 500px;
+    }
+
+    .menu-body { padding: 3rem 4rem 5rem; }
+
+    .menu-tabs { display: flex; gap: 0.5rem; margin-bottom: 2.5rem; flex-wrap: wrap; }
+    .tab {
+      font-size: 0.78rem; font-weight: 600;
+      letter-spacing: 0.12em; text-transform: uppercase;
+      padding: 0.5rem 1.3rem;
+      border: 1px solid var(--tan); border-radius: 30px;
+      background: none; color: var(--muted);
+      cursor: pointer; transition: all 0.2s;
+      font-family: 'Jost', sans-serif;
+    }
+    .tab.active, .tab:hover {
+      background: var(--btn); border-color: var(--btn); color: var(--cream);
+    }
+
+    .menu-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.2rem;
+    }
+    .menu-item {
+      background: var(--cream);
+      border: 1px solid var(--tan);
+      border-radius: 12px; padding: 1.8rem;
+      position: relative; transition: box-shadow 0.25s, transform 0.25s;
+      cursor: pointer; overflow: hidden;
+    }
+    .menu-item:hover { box-shadow: 0 8px 28px rgba(123,79,46,0.1); transform: translateY(-3px); }
+
+    .item-tag {
+      display: inline-block;
+      font-size: 0.63rem; font-weight: 700;
+      letter-spacing: 0.15em; text-transform: uppercase;
+      padding: 0.2rem 0.65rem; border-radius: 30px;
+      margin-bottom: 1rem;
+    }
+    .tag-new     { background: var(--btn); color: var(--cream); }
+    .tag-popular { background: var(--brown-dark); color: var(--cream); }
+    .tag-veggie  { background: #6A8F5A; color: white; }
+
+    .item-emoji { font-size: 2.3rem; display: block; margin-bottom: 0.8rem; }
+    .menu-item h3 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.2rem; font-weight: 700;
+      color: var(--brown-dark); margin-bottom: 0.4rem;
+    }
+    .menu-item p { font-size: 0.8rem; font-weight: 300; color: var(--muted); line-height: 1.5; margin-bottom: 1.2rem; }
+    .item-footer { display: flex; align-items: center; justify-content: space-between; }
+    .item-price {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.35rem; font-weight: 700; color: var(--brown);
+    }
+    .add-btn {
+      width: 32px; height: 32px; border-radius: 50%;
+      border: 1px solid var(--tan); background: none;
+      color: var(--brown); font-size: 1.2rem; cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'Jost', sans-serif;
+      transition: background 0.2s;
+    }
+    .add-btn:hover { background: var(--btn); color: var(--cream); border-color: var(--btn); }
+
+    /* ── PAGE: ABOUT ── */
+    .about-page { padding: 4rem 4rem 5rem; }
+    .about-split {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 4rem;
+      align-items: start; margin-bottom: 4rem;
+    }
+    .about-split h2 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2rem, 4vw, 3.2rem); font-weight: 700;
+      color: var(--brown-dark); line-height: 1.1; margin-bottom: 1.4rem;
+    }
+    .about-split h2 em { font-style: italic; color: var(--brown-mid); }
+    .about-split p {
+      font-size: 0.97rem; font-weight: 300;
+      line-height: 1.85; color: var(--muted); margin-bottom: 1rem;
+    }
+
+    .stats-row { display: flex; gap: 2.5rem; margin-top: 2rem; flex-wrap: wrap; }
+    .stat-num {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2.2rem; font-weight: 700; color: var(--brown);
+    }
+    .stat-label {
+      font-size: 0.72rem; font-weight: 600;
+      letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted);
+    }
+
+    .values-grid {
+      display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.2rem;
+      margin-bottom: 4rem;
+    }
+    .value-card {
+      background: var(--cream); border: 1px solid var(--tan);
+      border-radius: 12px; padding: 2rem 1.5rem;
+      text-align: center; transition: box-shadow 0.2s, transform 0.2s;
+    }
+    .value-card:hover { box-shadow: 0 8px 24px rgba(123,79,46,0.1); transform: translateY(-3px); }
+    .value-icon { font-size: 2.2rem; display: block; margin-bottom: 0.8rem; }
+    .value-card h3 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.1rem; font-weight: 700;
+      color: var(--brown-dark); margin-bottom: 0.5rem;
+    }
+    .value-card p { font-size: 0.82rem; font-weight: 300; color: var(--muted); line-height: 1.6; }
+
+    .team-strip {
+      background: var(--bg-alt);
+      border: 1px solid var(--tan);
+      border-radius: 12px; padding: 3rem;
+    }
+    .team-strip h2 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2rem; font-weight: 700; color: var(--brown-dark);
+      margin-bottom: 0.5rem;
+    }
+    .team-strip p { font-size: 0.95rem; font-weight: 300; color: var(--muted); }
+
+    /* ── PAGE: HOURS ── */
+    .hours-page { padding: 4rem 4rem 5rem; }
+    .hours-layout { display: grid; grid-template-columns: 1.2fr 1fr; gap: 3rem; align-items: start; }
+
+    .hours-card {
+      background: var(--cream); border: 1px solid var(--tan);
+      border-radius: 16px; padding: 2.5rem;
+    }
+    .hours-card h2 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.8rem; font-weight: 700;
+      color: var(--brown-dark); margin-bottom: 0.3rem;
+    }
+    .hours-subtitle {
+      font-size: 0.78rem; font-weight: 500;
+      letter-spacing: 0.15em; text-transform: uppercase;
+      color: var(--btn); margin-bottom: 1.8rem;
+    }
+
+    .hours-list { list-style: none; }
+    .hours-list li {
+      display: flex; justify-content: space-between; align-items: center;
+      font-size: 0.95rem;
+      padding: 0.9rem 0;
+      border-bottom: 1px dashed var(--tan);
+    }
+    .hours-list li:last-child { border-bottom: none; }
+    .hours-list li strong { font-weight: 600; color: var(--brown-dark); min-width: 120px; }
+    .hours-closed-tag {
+      background: rgba(139,99,85,0.1);
+      color: var(--btn);
+      font-size: 0.72rem; font-weight: 700;
+      letter-spacing: 0.12em; text-transform: uppercase;
+      padding: 0.2rem 0.7rem; border-radius: 30px;
+    }
+    .hours-time { color: var(--muted); font-weight: 400; }
+
+    .location-stack { display: flex; flex-direction: column; gap: 1.2rem; }
+    .info-card {
+      background: var(--cream); border: 1px solid var(--tan);
+      border-radius: 12px; padding: 1.8rem 2rem;
+    }
+    .info-card .section-label { margin-bottom: 0.8rem; }
+    .info-card h3 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.3rem; font-weight: 700;
+      color: var(--brown-dark); margin-bottom: 0.8rem;
+    }
+    .address-text { font-size: 0.92rem; font-weight: 300; line-height: 1.85; color: var(--muted); }
+    .address-text strong { font-weight: 600; color: var(--brown-dark); display: block; margin-top: 0.8rem; }
+
+    .contact-links { display: flex; flex-direction: column; gap: 0.7rem; }
+    .contact-link {
+      display: flex; align-items: center; gap: 0.75rem;
+      font-size: 0.88rem; font-weight: 400;
+      color: var(--muted); text-decoration: none;
+      transition: color 0.2s;
+    }
+    .contact-link:hover { color: var(--brown-dark); }
+    .contact-icon { font-size: 1rem; }
+
+    /* ── PAGE: ORDER ── */
+    .order-page { padding: 4rem 4rem 5rem; }
+    .order-hero {
+      background: var(--brown-dark);
+      border-radius: 16px; padding: 3.5rem;
+      margin-bottom: 3rem; text-align: center;
+    }
+    .order-hero h2 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2rem, 4vw, 3.2rem); font-weight: 700;
+      color: var(--cream); margin-bottom: 0.8rem;
+    }
+    .order-hero h2 em { font-style: italic; color: var(--tan); }
+    .order-hero p { font-size: 0.95rem; font-weight: 300; color: rgba(251,246,240,0.65); margin-bottom: 2rem; }
+
+    .order-options {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem;
+    }
+    .order-card {
+      background: var(--cream); border: 1px solid var(--tan);
+      border-radius: 12px; padding: 2.5rem 2rem;
+      text-align: center; transition: box-shadow 0.2s, transform 0.2s;
+      cursor: pointer;
+    }
+    .order-card:hover { box-shadow: 0 8px 28px rgba(123,79,46,0.12); transform: translateY(-3px); }
+    .order-icon { font-size: 2.5rem; display: block; margin-bottom: 1rem; }
+    .order-card h3 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.3rem; font-weight: 700;
+      color: var(--brown-dark); margin-bottom: 0.5rem;
+    }
+    .order-card p { font-size: 0.82rem; font-weight: 300; color: var(--muted); line-height: 1.6; margin-bottom: 1.5rem; }
+
+    .order-note {
+      background: var(--bg-alt); border: 1px solid var(--tan);
+      border-radius: 12px; padding: 1.5rem 2rem;
+      margin-top: 1.5rem;
+      display: flex; align-items: center; gap: 1rem;
+      font-size: 0.88rem; color: var(--muted); font-weight: 300;
+    }
+    .order-note strong { color: var(--brown-dark); font-weight: 600; }
+
+    /* ── SHARED ── */
+    .section-label {
+      font-size: 0.72rem; font-weight: 600;
+      letter-spacing: 0.22em; text-transform: uppercase;
+      color: var(--btn); margin-bottom: 1.2rem;
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      background: var(--bg-alt);
+      padding: 2.5rem 4rem;
+      display: flex; align-items: center; justify-content: space-between;
+      border-top: 1px solid var(--tan);
+    }
+    .footer-logo {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.4rem; font-weight: 700; color: var(--brown-dark);
+    }
+    .footer-logo span {
+      display: block; font-family: 'Jost', sans-serif;
+      font-size: 0.72rem; font-weight: 400;
+      letter-spacing: 0.12em; color: var(--muted); margin-top: 0.2rem;
+    }
+    .footer-mid {
+      font-size: 0.72rem; font-weight: 500;
+      letter-spacing: 0.15em; text-transform: uppercase; color: var(--muted);
+    }
+    .footer-social { display: flex; gap: 0.8rem; }
+    .social-btn {
+      width: 36px; height: 36px; border: 1px solid var(--tan);
+      border-radius: 50%; display: flex; align-items: center; justify-content: center;
+      font-size: 0.85rem; color: var(--muted); text-decoration: none;
+      transition: border-color 0.2s, color 0.2s;
+    }
+    .social-btn:hover { border-color: var(--brown); color: var(--brown-dark); }
+
+    /* ── ANIMATIONS ── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to   { opacity: 1; }
+    }
+    @keyframes scroll {
+      from { transform: translateX(0); }
+      to   { transform: translateX(-50%); }
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 900px) {
+      nav { padding: 1rem 1.5rem; }
+      .nav-links { gap: 0; }
+      .nav-links a { padding: 0.4rem 0.7rem; font-size: 0.75rem; }
+      .hero { grid-template-columns: 1fr; padding: 2.5rem 1.5rem; gap: 2.5rem; }
+      .hero-visual { align-items: center; padding-right: 0; }
+      .food-card { width: 100%; }
+      .food-card:nth-child(2) { margin-right: 0; }
+      .home-about { grid-template-columns: 1fr; }
+      .home-about-left, .home-about-right { padding: 3rem 1.5rem; }
+      .cta-banner { flex-direction: column; align-items: flex-start; padding: 3rem 1.5rem; }
+      .cta-actions { align-items: flex-start; }
+      .menu-body, .about-page, .hours-page, .order-page { padding: 2rem 1.5rem 4rem; }
+      .page-hero { padding: 2.5rem 1.5rem 2rem; }
+      .menu-grid { grid-template-columns: 1fr 1fr; }
+      .about-split { grid-template-columns: 1fr; gap: 2rem; }
+      .values-grid { grid-template-columns: 1fr 1fr; }
+      .hours-layout { grid-template-columns: 1fr; }
+      .order-options { grid-template-columns: 1fr; }
+      footer { flex-direction: column; gap: 1.5rem; text-align: center; padding: 2rem 1.5rem; }
+    }
+    @media (max-width: 560px) {
+      .menu-grid { grid-template-columns: 1fr; }
+      .values-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <a class="nav-logo" onclick="navigate('home')">Genisia's <span>Fast Food</span></a>
+    <ul class="nav-links">
+      <li><a onclick="navigate('menu')"  id="nav-menu">Menu</a></li>
+      <li><a onclick="navigate('about')" id="nav-about">About</a></li>
+      <li><a onclick="navigate('hours')" id="nav-hours">Hours</a></li>
+      <li><a onclick="navigate('order')" id="nav-order" class="nav-cta">Order Now</a></li>
+    </ul>
+  </nav>
+
+  <!-- ═══════════════ PAGE: HOME ═══════════════ -->
+  <div class="page active" id="page-home">
+
+    <section class="hero">
+      <div class="hero-content">
+        <div class="hero-badge">Fast Food · Breakfast · Open Daily</div>
+        <h1 class="hero-title">
+          Where every<br>morning<br>
+          <span class="accent line2">begins.</span>
+        </h1>
+        <p class="hero-sub">Hot, fast, and made with soul. Genisia's Fast Food brings you bold flavors and generous portions to fuel whatever comes next.</p>
+        <div class="hero-actions">
+          <button class="btn-primary" onclick="navigate('menu')">See the Menu</button>
+          <button class="btn-ghost"   onclick="navigate('hours')">Find Us</button>
+        </div>
+      </div>
+      <div class="hero-visual">
+        <div class="food-card">
+          <span class="food-emoji">🍳</span>
+          <div class="food-info"><h3>Genisia's Plate</h3><p>Eggs, bacon, hash browns & toast</p></div>
+          <span class="food-price">$8.99</span>
+        </div>
+        <div class="food-card">
+          <span class="food-emoji">🥞</span>
+          <div class="food-info"><h3>Stack Attack</h3><p>Fluffy pancakes with maple butter</p></div>
+          <span class="food-price">$6.49</span>
+        </div>
+        <div class="food-card">
+          <span class="food-emoji">☕</span>
+          <div class="food-info"><h3>Morning Roast</h3><p>Dark roast coffee, any size</p></div>
+          <span class="food-price">$2.99</span>
+        </div>
+      </div>
+    </section>
+
+    <div class="marquee-wrap">
+      <div class="marquee-inner">
+        <span>Breakfast All Day</span><span class="dot">✦</span>
+        <span>Fresh Every Morning</span><span class="dot">✦</span>
+        <span>Open 6:30 AM – 11:00 AM</span><span class="dot">✦</span>
+        <span>Drive-Thru Available</span><span class="dot">✦</span>
+        <span>Genisia's Fast Food</span><span class="dot">✦</span>
+        <span>Breakfast All Day</span><span class="dot">✦</span>
+        <span>Fresh Every Morning</span><span class="dot">✦</span>
+        <span>Open 6:30 AM – 11:00 AM</span><span class="dot">✦</span>
+        <span>Drive-Thru Available</span><span class="dot">✦</span>
+        <span>Genisia's Fast Food</span><span class="dot">✦</span>
+      </div>
+    </div>
+
+    <div class="home-about">
+      <div class="home-about-left">
+        <p class="section-label">Our Story</p>
+        <h2 style="font-family:'Cormorant Garamond',serif;font-size:clamp(2rem,3.5vw,3rem);font-weight:700;line-height:1.15;color:var(--brown-dark);margin-bottom:1.4rem;">Fast food with a <em style="font-style:italic;color:var(--brown-mid);">real breakfast</em> soul.</h2>
+        <p style="font-size:.97rem;font-weight:300;line-height:1.85;color:var(--muted);margin-bottom:1rem;">Genisia's Fast Food was born from one simple belief: the most important meal of the day should never be rushed out the door tasting like cardboard.</p>
+        <p style="font-size:.97rem;font-weight:300;line-height:1.85;color:var(--muted);">We cook every order fresh, use quality ingredients, and serve it all in minutes — because your morning doesn't have time to wait.</p>
+        <div class="stats-row">
+          <div><div class="stat-num">6:30</div><div class="stat-label">We Open</div></div>
+          <div><div class="stat-num">20+</div><div class="stat-label">Menu Items</div></div>
+          <div><div class="stat-num">100%</div><div class="stat-label">Fresh Daily</div></div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="cta-banner">
+      <h2>Ready to start your morning <em>right?</em></h2>
+      <div class="cta-actions">
+        <button class="btn-light" onclick="navigate('order')">Order Online Now</button>
+        <span class="cta-note">Fresh, hot & ready when you arrive</span>
+      </div>
+    </div>
+
+  </div><!-- /page-home -->
+
+
+  <!-- ═══════════════ PAGE: MENU ═══════════════ -->
+  <div class="page" id="page-menu">
+
+    <div class="page-hero">
+      <p class="section-label">What We Serve</p>
+      <h1>The <em>Morning</em> Lineup</h1>
+      <p>Fresh, fast, and made to order — every single time.</p>
+    </div>
+
+    <div class="menu-body">
+      <div class="menu-tabs">
+        <button class="tab active" data-cat="all">All Items</button>
+        <button class="tab" data-cat="tacos">Tacos</button>
+        <button class="tab" data-cat="burritos">Burritos</button>
+        <button class="tab" data-cat="fryjacks">Fry Jacks</button>
+        <button class="tab" data-cat="tostadas">Tostadas</button>
+        <button class="tab" data-cat="garnaches">Garnaches</button>
+        <button class="tab" data-cat="drinks">Drinks</button>
+      </div>
+
+      <div class="menu-grid" id="menu-grid">
+        <!-- tacos -->
+        <div class="menu-item" data-cat="tacos">
+          <span class="item-tag tag-popular">Popular</span>
+          <span class="item-emoji">🌮</span>
+          <h3>Chicken Taco</h3>
+          <p>Seasoned chicken with cabbage or onion. Pepper sauce optional.</p>
+          <div class="item-footer"><span class="item-price">2 x $1.00</span><button class="add-btn">+</button></div>
+        </div>
+        <div class="menu-item" data-cat="tacos">
+          <span class="item-tag tag-popular">Popular</span>
+          <span class="item-emoji">🌮</span>
+          <h3>Pork Taco</h3>
+          <p>Tender pork with cabbage or onion. Pepper sauce optional.</p>
+          <div class="item-footer"><span class="item-price">2 x $1.00</span><button class="add-btn">+</button></div>
+        </div>
+        <div class="menu-item" data-cat="tacos">
+          <span class="item-tag tag-new">New</span>
+          <span class="item-emoji">🌮</span>
+          <h3>Flour Taco</h3>
+          <p>Chicken or pork in a soft flour tortilla with cabbage or onion. Pepper sauce optional.</p>
+          <div class="item-footer"><span class="item-price">1 x $1.00</span><button class="add-btn">+</button></div>
+        </div>
+
+        <!-- burritos -->
+        <div class="menu-item" data-cat="burritos">
+          <span class="item-tag tag-popular">Popular</span>
+          <span class="item-emoji">🌯</span>
+          <h3>Breakfast Burrito</h3>
+          <p>Scrambled eggs, beans, cheese, bacon and sausage wrapped in a flour tortilla.</p>
+          <div class="item-footer"><span class="item-price">$5.00</span><button class="add-btn">+</button></div>
+        </div>
+        <div class="menu-item" data-cat="burritos">
+          <span class="item-tag tag-popular">Popular</span>
+          <span class="item-emoji">🌯</span>
+          <h3>Chicken Burrito</h3>
+          <p>Shredded chicken, beans, cheese and cabbage in a warm flour tortilla.</p>
+          <div class="item-footer"><span class="item-price">$5.00</span><button class="add-btn">+</button></div>
+        </div>
+        <div class="menu-item" data-cat="burritos">
+          <span class="item-tag tag-popular">Popular</span>
+          <span class="item-emoji">🌯</span>
+          <h3>Beef Burrito</h3>
+          <p>Shredded beef, beans, onion and cilantro wrapped in a flour tortilla.</p>
+          <div class="item-footer"><span class="item-price">$7.00</span><button class="add-btn">+</button></div>
+        </div>
+        <div class="menu-item" data-cat="burritos">
+          <span class="item-tag tag-popular">Popular</span>
+          <span class="item-emoji">🌯</span>
+          <h3>Pork Burrito</h3>
+          <p>Shredded pork, beans, cheese and cabbage in a flour tortilla.</p>
+          <div class="item-footer"><span class="item-price">$6.00</span><button class="add-btn">+</button></div>
+        </div>
+        <div class="menu-item" data-cat="burritos">
+          <span class="item-tag tag-popular">Popular</span>
+          <span class="item-emoji">🌯</span>
+          <h3>Egg Burrito</h3>
+          <p>Scrambled eggs, beans and cheese rolled in a warm flour tortilla.</p>
+          <div class="item-footer"><span class="item-price">$4.00</span><button class="add-btn">+</button></div>
+        </div>
+        <div class="menu-item" data-cat="burritos">
+          <span class="item-tag tag-popular">Popular</span>
+          <span class="item-emoji">🌯</span>
+          <h3>Bacon Burrito</h3>
+          <p>Bacon bits, beans and cheese wrapped in a flour tortilla.</p>
+          <div class="item-footer"><span class="item-price">$5.00</span><button class="add-btn">+</button></div>
+        </div>
+        <div class="menu-item" data-cat="burritos">
+          <span class="item-tag tag-new">New</span>
+          <span class="item-emoji">🌯</span>
+          <h3>Full House Burrito</h3>
+          <p>Shredded chicken, beans, sausage, cheese, cabbage, mayo and ketchup.</p>
+          <div class="item-footer"><span class="item-price">$6.00</span><button class="add-btn">+</button></div>
+        </div>
+        <div class="menu-item" data-cat="burritos">
+          <span class="item-tag tag-new">New</span>
+          <span class="item-emoji">🌯</span>
+          <h3>GreatDog</h3>
+          <p>Sausage, beans, cheese, cabbage, mayo and ketchup wrapped up tight.</p>
+          <div class="item-footer"><span class="item-price">$4.00</span><button class="add-btn">+</button></div>
+        </div>
+
+        <!-- fry jacks -->
+        <div class="menu-item" data-cat="fryjacks">
+          <span class="item-tag tag-popular">Popular</span>
+          <span class="item-emoji">🫓</span>
+          <h3>Breakfast Fry Jacks</h3>
+          <p>Scrambled eggs, beans, cheese, bacon and sausage with golden fry jacks.</p>
+          <div class="item-footer"><span class="item-price">$5.00</span><button class="add-btn">+</button></div>
+        </div>
+        <div class="menu-item" data-cat="fryjacks">
+          <span class="item-tag tag-popular">Popular</span>
+          <span class="item-emoji">🫓</span>
+          <h3>Chicken Fry Jacks</h3>
+          <p>Shredded chicken, beans, cheese and cabbage served with fry jacks.</p>
+          <div class="item-footer"><span class="item-price">$5.00</span><button class="add-btn">+</button></div>
+        </div>
+        <div class="menu-item" data-cat="fryjacks">
+          <span class="item-tag tag-popular">Popular</span>
+          <span class="item-emoji">🫓</span>
+          <h3>Beef Fry Jacks</h3>
+          <p>Shredded beef, beans, onion and cilantro served with fry jacks.</p>
+          <div class="item-footer"><span class="item-price">$7.00</span><button class="add-btn">+</button></div>
+        </div>
+        <div class="menu-item" data-cat="fryjacks">
+          <span class="item-tag tag-popular">Popular</span>
+          <span class="item-emoji">🫓</span>
+          <h3>Pork Fry Jacks</h3>
+          <p>Shredded pork, beans, cheese and cabbage served with fry jacks.</p>
+          <div class="item-footer"><span class="item-price">$6.00</span><button class="add-btn">+</button></div>
+        </div>
+        <div class="menu-item" data-cat="fryjacks">
+          <span class="item-tag tag-popular">Popular</span>
+          <span class="item-emoji">🫓</span>
+          <h3>Egg Fry Jacks</h3>
+          <p>Scrambled eggs, beans and cheese with golden fry jacks.</p>
+          <div class="item-footer"><span class="item-price">$4.00</span><button class="add-btn">+</button></div>
+        </div>
+        <div class="menu-item" data-cat="fryjacks">
+          <span class="item-tag tag-popular">Popular</span>
+          <span class="item-emoji">🫓</span>
+          <h3>Bacon Fry Jacks</h3>
+          <p>Bacon bits, beans and cheese served with fluffy fry jacks.</p>
+          <div class="item-footer"><span class="item-price">$5.00</span><button class="add-btn">+</button></div>
+        </div>
+        <div class="menu-item" data-cat="fryjacks">
+          <span class="item-tag tag-new">New</span>
+          <span class="item-emoji">🫓</span>
+          <h3>Full House Fry Jacks</h3>
+          <p>Shredded chicken, beans, sausage, cheese, cabbage, mayo and ketchup with fry jacks.</p>
+          <div class="item-footer"><span class="item-price">$6.00</span><button class="add-btn">+</button></div>
+        </div>
+
+        <!-- tostadas -->
+        <div class="menu-item" data-cat="tostadas">
+          <span class="item-tag tag-popular">Popular</span>
+          <span class="item-emoji">🫓</span>
+          <h3>Classic Tostada</h3>
+          <p>Crispy tortilla base with refried beans, shredded cheese, and fresh salsa.</p>
+          <div class="item-footer"><span class="item-price">$2.50</span><button class="add-btn">+</button></div>
+        </div>
+        <div class="menu-item" data-cat="tostadas">
+          <span class="item-tag tag-popular">Popular</span>
+          <span class="item-emoji">🫓</span>
+          <h3>Egg Tostada</h3>
+          <p>Crispy tortilla with beans, a fried egg, and melted cheese on top.</p>
+          <div class="item-footer"><span class="item-price">$3.00</span><button class="add-btn">+</button></div>
+        </div>
+        <div class="menu-item" data-cat="tostadas">
+          <span class="item-tag tag-new">New</span>
+          <span class="item-emoji">🫓</span>
+          <h3>Bacon Tostada</h3>
+          <p>Crispy tortilla layered with beans, bacon, cheese, and a drizzle of hot sauce.</p>
+          <div class="item-footer"><span class="item-price">$3.50</span><button class="add-btn">+</button></div>
+        </div>
+
+        <!-- garnaches -->
+        <div class="menu-item" data-cat="garnaches">
+          <span class="item-tag tag-popular">Popular</span>
+          <span class="item-emoji">🫔</span>
+          <h3>Classic Garnache</h3>
+          <p>Small fried corn tortilla topped with beans, cheese, and pickled onions.</p>
+          <div class="item-footer"><span class="item-price">$1.50</span><button class="add-btn">+</button></div>
+        </div>
+        <div class="menu-item" data-cat="garnaches">
+          <span class="item-tag tag-popular">Popular</span>
+          <span class="item-emoji">🫔</span>
+          <h3>Egg Garnache</h3>
+          <p>Fried tortilla base with a fried egg, beans, and crumbled white cheese.</p>
+          <div class="item-footer"><span class="item-price">$2.00</span><button class="add-btn">+</button></div>
+        </div>
+        <div class="menu-item" data-cat="garnaches">
+          <span class="item-tag tag-new">New</span>
+          <span class="item-emoji">🫔</span>
+          <h3>Loaded Garnache</h3>
+          <p>All the toppings — beans, egg, bacon, cheese, pickled onions, and hot sauce.</p>
+          <div class="item-footer"><span class="item-price">$2.75</span><button class="add-btn">+</button></div>
+        </div>
+
+        <!-- drinks -->
+        <div class="menu-item" data-cat="drinks">
+          <span class="item-tag tag-popular">Popular</span>
+          <span class="item-emoji">☕</span>
+          <h3>Hot Coffee</h3>
+          <p>Rich, freshly brewed coffee. Small, medium, or large.</p>
+          <div class="item-footer"><span class="item-price">$1.50</span><button class="add-btn">+</button></div>
+        </div>
+        <div class="menu-item" data-cat="drinks">
+          <span class="item-tag tag-popular">Popular</span>
+          <span class="item-emoji">🧃</span>
+          <h3>Fresh Orange Juice</h3>
+          <p>Freshly squeezed orange juice, cold and sweet.</p>
+          <div class="item-footer"><span class="item-price">$2.00</span><button class="add-btn">+</button></div>
+        </div>
+        <div class="menu-item" data-cat="drinks">
+          <span class="item-tag tag-new">New</span>
+          <span class="item-emoji">🥤</span>
+          <h3>Horchata</h3>
+          <p>Creamy, chilled rice drink with cinnamon and vanilla. Refreshing and sweet.</p>
+          <div class="item-footer"><span class="item-price">$2.50</span><button class="add-btn">+</button></div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /page-menu -->
+
+
+  <!-- ═══════════════ PAGE: ABOUT ═══════════════ -->
+  <div class="page" id="page-about">
+
+    <div class="page-hero">
+      <p class="section-label">Our Story</p>
+      <h1>More than <em>fast food.</em></h1>
+      <p>A breakfast experience built on quality, speed, and a whole lot of heart.</p>
+    </div>
+
+    <div class="about-page">
+      <div class="about-split">
+        <div>
+          <h2>Fast food with a <em>real breakfast</em> soul.</h2>
+          <p>Genisia's Fast Food was born from one simple belief: the most important meal of the day should never be rushed out the door tasting like cardboard. We set out to change that.</p>
+          <p>Every morning we prep fresh, source real ingredients, and train our team to get your order right — fast. No freezer-to-fryer shortcuts. No mystery meat. Just honest breakfast food made with care.</p>
+          <p>Since opening our doors in 2019, we've served thousands of happy mornings and we're just getting started.</p>
+          <div class="stats-row">
+            <div><div class="stat-num">2019</div><div class="stat-label">Founded</div></div>
+            <div><div class="stat-num">20+</div><div class="stat-label">Menu Items</div></div>
+            <div><div class="stat-num">5★</div><div class="stat-label">Avg Rating</div></div>
+            <div><div class="stat-num">100%</div><div class="stat-label">Fresh Daily</div></div>
+          </div>
+        </div>
+        <div>
+          <p class="section-label">Our Values</p>
+          <ul class="promise-list">
+            <li><span class="promise-icon">🔥</span><div><h4>Always Hot</h4><p>Every order cooked fresh to order. No heat lamps ever.</p></div></li>
+            <li><span class="promise-icon">⚡</span><div><h4>Lightning Fast</h4><p>We move quickly so you never have to wait long.</p></div></li>
+            <li><span class="promise-icon">🥚</span><div><h4>Real Ingredients</h4><p>Real eggs, real butter, real bacon. No imitations.</p></div></li>
+            <li><span class="promise-icon">💛</span><div><h4>Big Portions</h4><p>Breakfast that actually fills you up for the day ahead.</p></div></li>
+            <li><span class="promise-icon">🌱</span><div><h4>Veggie Friendly</h4><p>Plenty of plant-based options on every menu section.</p></div></li>
+          </ul>
+        </div>
+      </div>
+
+
+
+      <div class="team-strip" style="margin-top:3rem;">
+        <h2>Come visit us!</h2>
+        <p>We're open six days a week (closed Wednesdays) and we'd love to be part of your morning routine. Dine in, drive-thru, or take it to go — whatever works best for you.</p>
+      </div>
+    </div>
+
+  </div><!-- /page-about -->
+
+
+  <!-- ═══════════════ PAGE: HOURS ═══════════════ -->
+  <div class="page" id="page-hours">
+
+    <div class="page-hero">
+      <p class="section-label">Visit Us</p>
+      <h1><em>New</em> Opening Hours</h1>
+      <p>We've updated our schedule — here's when you can find us.</p>
+    </div>
+
+    <div class="hours-page">
+      <div class="hours-layout">
+
+        <div class="hours-card">
+          <h2>Opening Hours</h2>
+          <p class="hours-subtitle">Genisia's Fast Food</p>
+          <ul class="hours-list">
+            <li><strong>Monday</strong>    <span class="hours-time">6:30 AM – 11:00 AM</span></li>
+            <li><strong>Tuesday</strong>   <span class="hours-time">6:30 AM – 11:00 AM</span></li>
+            <li><strong>Wednesday</strong> <span class="hours-closed-tag">Closed</span></li>
+            <li><strong>Thursday</strong>  <span class="hours-time">6:30 AM – 11:00 AM</span></li>
+            <li><strong>Friday</strong>    <span class="hours-time">6:30 AM – 11:00 AM</span></li>
+            <li><strong>Saturday</strong>  <span class="hours-time">6:30 AM – 11:00 AM</span></li>
+            <li><strong>Sunday</strong>    <span class="hours-time">8:00 AM – 11:30 AM</span></li>
+          </ul>
+        </div>
+
+        <div class="location-stack">
+          <div class="info-card">
+            <p class="section-label">Location</p>
+            <h3>Find Us</h3>
+            <p class="address-text">
+              123 Morning Boulevard<br>
+              Sunrise District<br>
+              New Metro City, NM 10001
+              <strong>Drive-Thru Available</strong>
+              Dine-in · Takeout · Curbside
+            </p>
+          </div>
+          <div class="info-card">
+            <p class="section-label">Contact</p>
+            <h3>Get in Touch</h3>
+            <div class="contact-links">
+              <a href="tel:+15016252341" class="contact-link"><span class="contact-icon">📞</span>(501) 625-2341</a>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+
+    </div>
+
+  </div><!-- /page-hours -->
+
+
+  <!-- ═══════════════ PAGE: ORDER ═══════════════ -->
+  <div class="page" id="page-order">
+
+    <div class="page-hero">
+      <p class="section-label">Ready to Eat?</p>
+      <h1>Order <em>Now</em></h1>
+      <p>Choose how you'd like to get your Genisia's fix this morning.</p>
+    </div>
+
+    <div class="order-page">
+      <div class="order-hero">
+        <h2>Your morning, <em>your way.</em></h2>
+        <p>Hot, fresh breakfast made to order. Walk in and we'll have you sorted before you know it.</p>
+        <a class="btn-light" style="display:inline-block;text-decoration:none;" href="https://wa.me/15016252341" target="_blank">Start Your Order</a>
+      </div>
+
+      <div class="order-options" style="grid-template-columns:1fr;max-width:420px;margin:0 auto;">
+        <div class="order-card">
+          <span class="order-icon">🏃</span>
+          <h3>Walk In</h3>
+          <p>Come in and order at the counter. Our team will have your food ready in minutes.</p>
+          <button class="btn-primary" onclick="navigate('hours')">See Our Hours</button>
+        </div>
+
+      </div>
+
+      <div class="order-note">
+        <span style="font-size:1.4rem;">⚡</span>
+        <span><strong>We move fast:</strong> Your order is always cooked fresh and served hot — no long waits, ever.</span>
+      </div>
+    </div>
+
+  </div><!-- /page-order -->
+
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-logo">
+      Genisia's
+      <span>Fast Food · Est. 2019</span>
+    </div>
+    <div class="footer-mid">© 2025 Genisia's Fast Food · All Rights Reserved</div>
+    <div class="footer-social">
+      <a href="#" class="social-btn" title="Instagram">📷</a>
+      <a href="#" class="social-btn" title="Facebook">📘</a>
+      <a href="#" class="social-btn" title="TikTok">🎵</a>
+      <a href="#" class="social-btn" title="Twitter/X">🐦</a>
+    </div>
+  </footer>
+
+  <script>
+    // ── PAGE ROUTER ──
+    function navigate(page) {
+      // hide all pages
+      document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+      // show target
+      document.getElementById('page-' + page).classList.add('active');
+      // update nav active state
+      document.querySelectorAll('.nav-links a').forEach(a => a.classList.remove('active'));
+      const navEl = document.getElementById('nav-' + page);
+      if (navEl) navEl.classList.add('active');
+      // scroll to top
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    // ── MENU FILTER TABS ──
+    document.querySelectorAll('.menu-tabs .tab').forEach(tab => {
+      tab.addEventListener('click', () => {
+        document.querySelectorAll('.menu-tabs .tab').forEach(t => t.classList.remove('active'));
+        tab.classList.add('active');
+        const cat = tab.dataset.cat;
+        document.querySelectorAll('#menu-grid .menu-item').forEach(item => {
+          item.style.display = (cat === 'all' || item.dataset.cat === cat) ? 'block' : 'none';
+        });
+      });
+    });
+
+    // ── ADD BUTTON FEEDBACK ──
+    document.addEventListener('click', e => {
+      if (e.target.classList.contains('add-btn')) {
+        e.target.textContent = '✓';
+        e.target.style.background = '#8B6355';
+        e.target.style.color = '#FBF6F0';
+        e.target.style.borderColor = '#8B6355';
+        setTimeout(() => {
+          e.target.textContent = '+';
+          e.target.style.background = '';
+          e.target.style.color = '';
+          e.target.style.borderColor = '';
+        }, 1200);
+      }
+    });
+
+    // ── SCROLL REVEAL ──
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.style.opacity = '1';
+          e.target.style.transform = 'translateY(0)';
+        }
+      });
+    }, { threshold: 0.1 });
+
+    document.querySelectorAll('.menu-item, .value-card, .order-card, .promise-list li, .food-card').forEach(el => {
+      el.style.opacity = '0';
+      el.style.transform = 'translateY(18px)';
+      el.style.transition = 'opacity 0.45s ease, transform 0.45s ease';
+      observer.observe(el);
+    });
+  </script>
+
+</body>
+</html>
