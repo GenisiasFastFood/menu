@@ -94,9 +94,9 @@
     /* ── PAGE: HOME ── */
     .hero {
       min-height: calc(100vh - 72px);
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      align-items: center;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
       padding: 3rem 4rem 4rem;
       position: relative;
       overflow: hidden;
@@ -588,31 +588,173 @@
       to   { transform: translateX(-50%); }
     }
 
-    /* ── RESPONSIVE ── */
+    /* ── HAMBURGER ── */
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      cursor: pointer;
+      padding: 4px;
+      background: none;
+      border: none;
+      z-index: 200;
+    }
+    .hamburger span {
+      display: block;
+      width: 24px; height: 2px;
+      background: var(--brown-dark);
+      border-radius: 2px;
+      transition: all 0.3s ease;
+    }
+    .hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .hamburger.open span:nth-child(2) { opacity: 0; }
+    .hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+    /* Mobile nav drawer */
+    .mobile-nav {
+      display: none;
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: var(--cream);
+      z-index: 150;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      animation: fadeIn 0.25s ease both;
+    }
+    .mobile-nav.open { display: flex; }
+    .mobile-nav a {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2rem; font-weight: 700;
+      color: var(--brown-dark);
+      text-decoration: none;
+      padding: 0.6rem 2rem;
+      border-radius: 30px;
+      transition: background 0.2s, color 0.2s;
+      cursor: pointer;
+    }
+    .mobile-nav a:hover, .mobile-nav a.active {
+      background: rgba(123,79,46,0.1);
+    }
+    .mobile-nav .mobile-cta {
+      margin-top: 1rem;
+      background: var(--btn);
+      color: var(--cream) !important;
+      font-size: 1rem !important;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
+    /* ── TABLET ── */
     @media (max-width: 900px) {
       nav { padding: 1rem 1.5rem; }
-      .nav-links { gap: 0; }
-      .nav-links a { padding: 0.4rem 0.7rem; font-size: 0.75rem; }
-      .hero { grid-template-columns: 1fr; padding: 2.5rem 1.5rem; gap: 2.5rem; }
-      .hero-visual { align-items: center; padding-right: 0; }
+      .nav-links { display: none; }
+      .hamburger { display: flex; }
+
+      .hero {
+        grid-template-columns: 1fr;
+        padding: 2rem 1.5rem 3rem;
+        min-height: auto;
+        gap: 2.5rem;
+      }
+      .hero-title { font-size: clamp(2.8rem, 10vw, 4rem); }
+      .hero-title .line2 { margin-left: 1rem; }
+      .hero-sub { max-width: 100%; }
+      .hero-visual { align-items: stretch; padding-right: 0; }
       .food-card { width: 100%; }
       .food-card:nth-child(2) { margin-right: 0; }
-      .home-about { grid-template-columns: 1fr; }
+
       .home-about-left, .home-about-right { padding: 3rem 1.5rem; }
+
       .cta-banner { flex-direction: column; align-items: flex-start; padding: 3rem 1.5rem; }
       .cta-actions { align-items: flex-start; }
-      .menu-body, .about-page, .hours-page, .order-page { padding: 2rem 1.5rem 4rem; }
+
       .page-hero { padding: 2.5rem 1.5rem 2rem; }
+      .menu-body { padding: 2rem 1.5rem 4rem; }
       .menu-grid { grid-template-columns: 1fr 1fr; }
+
+      .about-page { padding: 2rem 1.5rem 4rem; }
       .about-split { grid-template-columns: 1fr; gap: 2rem; }
-      .values-grid { grid-template-columns: 1fr 1fr; }
+
+      .hours-page { padding: 2rem 1.5rem 4rem; }
       .hours-layout { grid-template-columns: 1fr; }
+
+      .order-page { padding: 2rem 1.5rem 4rem; }
       .order-options { grid-template-columns: 1fr; }
-      footer { flex-direction: column; gap: 1.5rem; text-align: center; padding: 2rem 1.5rem; }
+
+      footer { flex-direction: column; gap: 1.2rem; text-align: center; padding: 2rem 1.5rem; }
     }
+
+    /* ── MOBILE ── */
     @media (max-width: 560px) {
-      .menu-grid { grid-template-columns: 1fr; }
-      .values-grid { grid-template-columns: 1fr; }
+      nav { padding: 0.9rem 1.2rem; }
+      .nav-logo { font-size: 1.3rem; }
+
+      .page { padding-top: 62px; }
+
+      /* Hero */
+      .hero { padding: 1.5rem 1.2rem 2.5rem; gap: 2rem; }
+      .hero-badge { font-size: 0.65rem; }
+      .hero-title { font-size: clamp(2.4rem, 11vw, 3.2rem); line-height: 1.0; }
+      .hero-title .line2 { margin-left: 0.5rem; }
+      .hero-sub { font-size: 0.92rem; }
+      .hero-actions { flex-direction: column; }
+      .btn-primary, .btn-ghost { width: 100%; text-align: center; justify-content: center; }
+      .food-card { padding: 1rem 1.2rem; gap: 0.8rem; }
+      .food-emoji { font-size: 1.6rem; }
+      .food-price { font-size: 1.05rem; }
+
+      /* Marquee */
+      .marquee-inner { font-size: 0.7rem; }
+
+      /* Home about */
+      .home-about-left, .home-about-right { padding: 2.5rem 1.2rem; }
+      .stats-row { gap: 1.5rem; }
+      .stat-num { font-size: 1.8rem; }
+
+      /* CTA */
+      .cta-banner { padding: 2.5rem 1.2rem; }
+      .cta-banner h2 { font-size: clamp(1.6rem, 7vw, 2.2rem); }
+      .btn-light { width: 100%; text-align: center; }
+
+      /* Page hero */
+      .page-hero { padding: 2rem 1.2rem 1.5rem; }
+      .page-hero h1 { font-size: clamp(2rem, 9vw, 3rem); }
+
+      /* Menu */
+      .menu-body { padding: 1.5rem 1.2rem 3rem; }
+      .menu-tabs { gap: 0.4rem; }
+      .tab { font-size: 0.7rem; padding: 0.4rem 0.8rem; letter-spacing: 0.08em; }
+      .menu-grid { grid-template-columns: 1fr; gap: 1rem; }
+      .menu-item { padding: 1.4rem; }
+      .item-emoji { font-size: 1.8rem; }
+      .menu-item h3 { font-size: 1.05rem; }
+      .item-price { font-size: 1.1rem; }
+
+      /* About */
+      .about-page { padding: 1.5rem 1.2rem 3rem; }
+      .about-split { gap: 1.5rem; margin-bottom: 2rem; }
+      .team-strip { padding: 2rem 1.2rem; }
+      .team-strip h2 { font-size: 1.5rem; }
+
+      /* Hours */
+      .hours-page { padding: 1.5rem 1.2rem 3rem; }
+      .hours-card { padding: 1.8rem 1.2rem; }
+      .hours-card h2 { font-size: 1.5rem; }
+      .hours-list li { font-size: 0.88rem; padding: 0.75rem 0; }
+      .hours-list li strong { min-width: 100px; }
+
+      /* Order */
+      .order-page { padding: 1.5rem 1.2rem 3rem; }
+      .order-hero { padding: 2rem 1.2rem; }
+      .order-hero h2 { font-size: clamp(1.6rem, 7vw, 2.2rem); }
+      .order-card { padding: 2rem 1.2rem; }
+      .btn-primary { width: 100%; }
+
+      /* Footer */
+      footer { padding: 2rem 1.2rem; gap: 1rem; }
+      .footer-social { justify-content: center; }
     }
   </style>
 </head>
@@ -627,7 +769,19 @@
       <li><a onclick="navigate('hours')" id="nav-hours">Hours</a></li>
       <li><a onclick="navigate('order')" id="nav-order" class="nav-cta">Order Now</a></li>
     </ul>
+    <button class="hamburger" id="hamburger" onclick="toggleMobileNav()" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
   </nav>
+
+  <!-- MOBILE NAV DRAWER -->
+  <div class="mobile-nav" id="mobile-nav">
+    <a onclick="navigate('home');  toggleMobileNav()">Home</a>
+    <a onclick="navigate('menu');  toggleMobileNav()" id="mnav-menu">Menu</a>
+    <a onclick="navigate('about'); toggleMobileNav()" id="mnav-about">About</a>
+    <a onclick="navigate('hours'); toggleMobileNav()" id="mnav-hours">Hours</a>
+    <a onclick="navigate('order'); toggleMobileNav()" class="mobile-cta" id="mnav-order">Order Now</a>
+  </div>
 
   <!-- ═══════════════ PAGE: HOME ═══════════════ -->
   <div class="page active" id="page-home">
@@ -645,23 +799,7 @@
           <button class="btn-ghost"   onclick="navigate('hours')">Find Us</button>
         </div>
       </div>
-      <div class="hero-visual">
-        <div class="food-card">
-          <span class="food-emoji">🍳</span>
-          <div class="food-info"><h3>Genisia's Plate</h3><p>Eggs, bacon, hash browns & toast</p></div>
-          <span class="food-price">$8.99</span>
-        </div>
-        <div class="food-card">
-          <span class="food-emoji">🥞</span>
-          <div class="food-info"><h3>Stack Attack</h3><p>Fluffy pancakes with maple butter</p></div>
-          <span class="food-price">$6.49</span>
-        </div>
-        <div class="food-card">
-          <span class="food-emoji">☕</span>
-          <div class="food-info"><h3>Morning Roast</h3><p>Dark roast coffee, any size</p></div>
-          <span class="food-price">$2.99</span>
-        </div>
-      </div>
+
     </section>
 
     <div class="marquee-wrap">
@@ -669,12 +807,10 @@
         <span>Breakfast All Day</span><span class="dot">✦</span>
         <span>Fresh Every Morning</span><span class="dot">✦</span>
         <span>Open 6:30 AM – 11:00 AM</span><span class="dot">✦</span>
-        <span>Drive-Thru Available</span><span class="dot">✦</span>
         <span>Genisia's Fast Food</span><span class="dot">✦</span>
         <span>Breakfast All Day</span><span class="dot">✦</span>
         <span>Fresh Every Morning</span><span class="dot">✦</span>
         <span>Open 6:30 AM – 11:00 AM</span><span class="dot">✦</span>
-        <span>Drive-Thru Available</span><span class="dot">✦</span>
         <span>Genisia's Fast Food</span><span class="dot">✦</span>
       </div>
     </div>
@@ -726,206 +862,188 @@
       </div>
 
       <div class="menu-grid" id="menu-grid">
-        <!-- tacos -->
+
+        <!-- TACOS -->
         <div class="menu-item" data-cat="tacos">
           <span class="item-tag tag-popular">Popular</span>
           <span class="item-emoji">🌮</span>
-          <h3>Chicken Taco</h3>
-          <p>Seasoned chicken with cabbage or onion. Pepper sauce optional.</p>
-          <div class="item-footer"><span class="item-price">2 x $1.00</span><button class="add-btn">+</button></div>
+          <h3>Chicken or Pork Taco</h3>
+          <p>Corn tortilla with seasoned chicken or pork, cabbage or onion. Pepper sauce optional.</p>
+          <div class="item-footer"><span class="item-price">2 x $1.00</span></div>
         </div>
         <div class="menu-item" data-cat="tacos">
           <span class="item-tag tag-popular">Popular</span>
-          <span class="item-emoji">🌮</span>
-          <h3>Pork Taco</h3>
-          <p>Tender pork with cabbage or onion. Pepper sauce optional.</p>
-          <div class="item-footer"><span class="item-price">2 x $1.00</span><button class="add-btn">+</button></div>
-        </div>
-        <div class="menu-item" data-cat="tacos">
-          <span class="item-tag tag-new">New</span>
           <span class="item-emoji">🌮</span>
           <h3>Flour Taco</h3>
-          <p>Chicken or pork in a soft flour tortilla with cabbage or onion. Pepper sauce optional.</p>
-          <div class="item-footer"><span class="item-price">1 x $1.00</span><button class="add-btn">+</button></div>
+          <p>Soft flour tortilla with chicken or pork, cabbage or onion. Pepper sauce optional.</p>
+          <div class="item-footer"><span class="item-price">1 x $1.00</span></div>
         </div>
 
-        <!-- burritos -->
+        <!-- BURRITOS -->
         <div class="menu-item" data-cat="burritos">
           <span class="item-tag tag-popular">Popular</span>
           <span class="item-emoji">🌯</span>
           <h3>Breakfast Burrito</h3>
-          <p>Scrambled eggs, beans, cheese, bacon and sausage wrapped in a flour tortilla.</p>
-          <div class="item-footer"><span class="item-price">$5.00</span><button class="add-btn">+</button></div>
+          <p>Scrambled eggs, beans, cheese, bacon and sausage.</p>
+          <div class="item-footer"><span class="item-price">$5.00</span></div>
         </div>
         <div class="menu-item" data-cat="burritos">
           <span class="item-tag tag-popular">Popular</span>
           <span class="item-emoji">🌯</span>
           <h3>Chicken Burrito</h3>
-          <p>Shredded chicken, beans, cheese and cabbage in a warm flour tortilla.</p>
-          <div class="item-footer"><span class="item-price">$5.00</span><button class="add-btn">+</button></div>
+          <p>Shredded chicken, beans, cheese and cabbage.</p>
+          <div class="item-footer"><span class="item-price">$4.00</span></div>
         </div>
         <div class="menu-item" data-cat="burritos">
           <span class="item-tag tag-popular">Popular</span>
           <span class="item-emoji">🌯</span>
           <h3>Beef Burrito</h3>
-          <p>Shredded beef, beans, onion and cilantro wrapped in a flour tortilla.</p>
-          <div class="item-footer"><span class="item-price">$7.00</span><button class="add-btn">+</button></div>
+          <p>Shredded beef, beans, onion and cilantro.</p>
+          <div class="item-footer"><span class="item-price">$7.00</span></div>
         </div>
         <div class="menu-item" data-cat="burritos">
           <span class="item-tag tag-popular">Popular</span>
           <span class="item-emoji">🌯</span>
           <h3>Pork Burrito</h3>
-          <p>Shredded pork, beans, cheese and cabbage in a flour tortilla.</p>
-          <div class="item-footer"><span class="item-price">$6.00</span><button class="add-btn">+</button></div>
+          <p>Shredded pork, beans, cheese and cabbage.</p>
+          <div class="item-footer"><span class="item-price">$6.00</span></div>
         </div>
         <div class="menu-item" data-cat="burritos">
           <span class="item-tag tag-popular">Popular</span>
-          <span class="item-emoji">🌯</span>
-          <h3>Egg Burrito</h3>
-          <p>Scrambled eggs, beans and cheese rolled in a warm flour tortilla.</p>
-          <div class="item-footer"><span class="item-price">$4.00</span><button class="add-btn">+</button></div>
-        </div>
-        <div class="menu-item" data-cat="burritos">
-          <span class="item-tag tag-popular">Popular</span>
-          <span class="item-emoji">🌯</span>
-          <h3>Bacon Burrito</h3>
-          <p>Bacon bits, beans and cheese wrapped in a flour tortilla.</p>
-          <div class="item-footer"><span class="item-price">$5.00</span><button class="add-btn">+</button></div>
-        </div>
-        <div class="menu-item" data-cat="burritos">
-          <span class="item-tag tag-new">New</span>
           <span class="item-emoji">🌯</span>
           <h3>Full House Burrito</h3>
           <p>Shredded chicken, beans, sausage, cheese, cabbage, mayo and ketchup.</p>
-          <div class="item-footer"><span class="item-price">$6.00</span><button class="add-btn">+</button></div>
+          <div class="item-footer"><span class="item-price">$5.00</span></div>
         </div>
         <div class="menu-item" data-cat="burritos">
-          <span class="item-tag tag-new">New</span>
+          <span class="item-tag tag-popular">Popular</span>
           <span class="item-emoji">🌯</span>
           <h3>GreatDog</h3>
-          <p>Sausage, beans, cheese, cabbage, mayo and ketchup wrapped up tight.</p>
-          <div class="item-footer"><span class="item-price">$4.00</span><button class="add-btn">+</button></div>
+          <p>Sausage, beans, cheese, cabbage, mayo and ketchup.</p>
+          <div class="item-footer"><span class="item-price">$4.00</span></div>
         </div>
 
-        <!-- fry jacks -->
+        <!-- FRY JACKS -->
         <div class="menu-item" data-cat="fryjacks">
           <span class="item-tag tag-popular">Popular</span>
           <span class="item-emoji">🫓</span>
           <h3>Breakfast Fry Jacks</h3>
           <p>Scrambled eggs, beans, cheese, bacon and sausage with golden fry jacks.</p>
-          <div class="item-footer"><span class="item-price">$5.00</span><button class="add-btn">+</button></div>
+          <div class="item-footer"><span class="item-price">$5.00</span></div>
         </div>
         <div class="menu-item" data-cat="fryjacks">
           <span class="item-tag tag-popular">Popular</span>
           <span class="item-emoji">🫓</span>
           <h3>Chicken Fry Jacks</h3>
-          <p>Shredded chicken, beans, cheese and cabbage served with fry jacks.</p>
-          <div class="item-footer"><span class="item-price">$5.00</span><button class="add-btn">+</button></div>
+          <p>Shredded chicken, beans, cheese and cabbage with fry jacks.</p>
+          <div class="item-footer"><span class="item-price">$4.00</span></div>
         </div>
         <div class="menu-item" data-cat="fryjacks">
           <span class="item-tag tag-popular">Popular</span>
           <span class="item-emoji">🫓</span>
           <h3>Beef Fry Jacks</h3>
-          <p>Shredded beef, beans, onion and cilantro served with fry jacks.</p>
-          <div class="item-footer"><span class="item-price">$7.00</span><button class="add-btn">+</button></div>
+          <p>Shredded beef, beans, onion and cilantro with fry jacks.</p>
+          <div class="item-footer"><span class="item-price">$7.00</span></div>
         </div>
         <div class="menu-item" data-cat="fryjacks">
           <span class="item-tag tag-popular">Popular</span>
           <span class="item-emoji">🫓</span>
           <h3>Pork Fry Jacks</h3>
-          <p>Shredded pork, beans, cheese and cabbage served with fry jacks.</p>
-          <div class="item-footer"><span class="item-price">$6.00</span><button class="add-btn">+</button></div>
+          <p>Shredded pork, beans, cheese and cabbage with fry jacks.</p>
+          <div class="item-footer"><span class="item-price">$6.00</span></div>
         </div>
         <div class="menu-item" data-cat="fryjacks">
           <span class="item-tag tag-popular">Popular</span>
-          <span class="item-emoji">🫓</span>
-          <h3>Egg Fry Jacks</h3>
-          <p>Scrambled eggs, beans and cheese with golden fry jacks.</p>
-          <div class="item-footer"><span class="item-price">$4.00</span><button class="add-btn">+</button></div>
-        </div>
-        <div class="menu-item" data-cat="fryjacks">
-          <span class="item-tag tag-popular">Popular</span>
-          <span class="item-emoji">🫓</span>
-          <h3>Bacon Fry Jacks</h3>
-          <p>Bacon bits, beans and cheese served with fluffy fry jacks.</p>
-          <div class="item-footer"><span class="item-price">$5.00</span><button class="add-btn">+</button></div>
-        </div>
-        <div class="menu-item" data-cat="fryjacks">
-          <span class="item-tag tag-new">New</span>
           <span class="item-emoji">🫓</span>
           <h3>Full House Fry Jacks</h3>
           <p>Shredded chicken, beans, sausage, cheese, cabbage, mayo and ketchup with fry jacks.</p>
-          <div class="item-footer"><span class="item-price">$6.00</span><button class="add-btn">+</button></div>
+          <div class="item-footer"><span class="item-price">$5.00</span></div>
         </div>
 
-        <!-- tostadas -->
+        <!-- TOSTADAS -->
         <div class="menu-item" data-cat="tostadas">
           <span class="item-tag tag-popular">Popular</span>
           <span class="item-emoji">🫓</span>
-          <h3>Classic Tostada</h3>
-          <p>Crispy tortilla base with refried beans, shredded cheese, and fresh salsa.</p>
-          <div class="item-footer"><span class="item-price">$2.50</span><button class="add-btn">+</button></div>
-        </div>
-        <div class="menu-item" data-cat="tostadas">
-          <span class="item-tag tag-popular">Popular</span>
-          <span class="item-emoji">🫓</span>
-          <h3>Egg Tostada</h3>
-          <p>Crispy tortilla with beans, a fried egg, and melted cheese on top.</p>
-          <div class="item-footer"><span class="item-price">$3.00</span><button class="add-btn">+</button></div>
-        </div>
-        <div class="menu-item" data-cat="tostadas">
-          <span class="item-tag tag-new">New</span>
-          <span class="item-emoji">🫓</span>
-          <h3>Bacon Tostada</h3>
-          <p>Crispy tortilla layered with beans, bacon, cheese, and a drizzle of hot sauce.</p>
-          <div class="item-footer"><span class="item-price">$3.50</span><button class="add-btn">+</button></div>
+          <h3>Tostadas</h3>
+          <p>Crispy corn tortilla topped with beans, cheese and your choice of toppings.</p>
+          <div class="item-footer"><span class="item-price">1.50 x 1</span></div>
         </div>
 
-        <!-- garnaches -->
+        <!-- GARNACHES -->
         <div class="menu-item" data-cat="garnaches">
           <span class="item-tag tag-popular">Popular</span>
           <span class="item-emoji">🫔</span>
-          <h3>Classic Garnache</h3>
-          <p>Small fried corn tortilla topped with beans, cheese, and pickled onions.</p>
-          <div class="item-footer"><span class="item-price">$1.50</span><button class="add-btn">+</button></div>
+          <h3>Gacho</h3>
+          <p>A Belizean classic — fried tortilla base with beans and cheese.</p>
+          <div class="item-footer"><span class="item-price">$2.50</span></div>
         </div>
         <div class="menu-item" data-cat="garnaches">
           <span class="item-tag tag-popular">Popular</span>
           <span class="item-emoji">🫔</span>
-          <h3>Egg Garnache</h3>
-          <p>Fried tortilla base with a fried egg, beans, and crumbled white cheese.</p>
-          <div class="item-footer"><span class="item-price">$2.00</span><button class="add-btn">+</button></div>
-        </div>
-        <div class="menu-item" data-cat="garnaches">
-          <span class="item-tag tag-new">New</span>
-          <span class="item-emoji">🫔</span>
-          <h3>Loaded Garnache</h3>
-          <p>All the toppings — beans, egg, bacon, cheese, pickled onions, and hot sauce.</p>
-          <div class="item-footer"><span class="item-price">$2.75</span><button class="add-btn">+</button></div>
+          <h3>Garnaches</h3>
+          <p>Small fried corn tortillas topped with beans, cheese and pickled onions.</p>
+          <div class="item-footer"><span class="item-price">3 x $2.00</span></div>
         </div>
 
-        <!-- drinks -->
+        <!-- DRINKS -->
         <div class="menu-item" data-cat="drinks">
           <span class="item-tag tag-popular">Popular</span>
           <span class="item-emoji">☕</span>
-          <h3>Hot Coffee</h3>
-          <p>Rich, freshly brewed coffee. Small, medium, or large.</p>
-          <div class="item-footer"><span class="item-price">$1.50</span><button class="add-btn">+</button></div>
+          <h3>Coffee</h3>
+          <p>Freshly brewed hot coffee. Sugar and creamer optional.</p>
+          <div class="item-footer"><span class="item-price">$2.50</span></div>
+        </div>
+
+        <div class="menu-item" data-cat="drinks">
+          <span class="item-tag tag-popular">Popular</span>
+          <span class="item-emoji">🍊</span>
+          <h3>Orange Juice</h3>
+          <p>Fresh squeezed orange juice, cold and sweet.</p>
+          <div class="item-footer"><span class="item-price">$3.00</span></div>
         </div>
         <div class="menu-item" data-cat="drinks">
           <span class="item-tag tag-popular">Popular</span>
-          <span class="item-emoji">🧃</span>
-          <h3>Fresh Orange Juice</h3>
-          <p>Freshly squeezed orange juice, cold and sweet.</p>
-          <div class="item-footer"><span class="item-price">$2.00</span><button class="add-btn">+</button></div>
+          <span class="item-emoji">🍋</span>
+          <h3>Lime Juice</h3>
+          <p>Freshly squeezed lime juice, light and refreshing.</p>
+          <div class="item-footer"><span class="item-price">$3.00</span></div>
+        </div>
+        <div class="menu-item" data-cat="drinks">
+          <span class="item-tag tag-popular">Popular</span>
+          <span class="item-emoji">🌺</span>
+          <h3>Sorrel Juice</h3>
+          <p>Deep red hibiscus sorrel drink, sweet and tangy.</p>
+          <div class="item-footer"><span class="item-price">$3.00</span></div>
+        </div>
+        <div class="menu-item" data-cat="drinks">
+          <span class="item-tag tag-popular">Popular</span>
+          <span class="item-emoji">🥤</span>
+          <h3>Horchata</h3>
+          <p>Creamy chilled rice drink with cinnamon and vanilla.</p>
+          <div class="item-footer"><span class="item-price">$3.00</span></div>
+        </div>
+        <div class="menu-item" data-cat="drinks">
+          <span class="item-tag tag-popular">Popular</span>
+          <span class="item-emoji">🍬</span>
+          <h3>Tamarind Juice</h3>
+          <p>Sweet and sour tamarind drink, a Belizean classic.</p>
+          <div class="item-footer"><span class="item-price">$3.00</span></div>
+        </div>
+        <div class="menu-item" data-cat="drinks">
+          <span class="item-tag tag-popular">Popular</span>
+          <span class="item-emoji">🍉</span>
+          <h3>Watermelon Juice</h3>
+          <p>Cold fresh watermelon juice, naturally sweet.</p>
+          <div class="item-footer"><span class="item-price">$3.00</span></div>
         </div>
         <div class="menu-item" data-cat="drinks">
           <span class="item-tag tag-new">New</span>
-          <span class="item-emoji">🥤</span>
-          <h3>Horchata</h3>
-          <p>Creamy, chilled rice drink with cinnamon and vanilla. Refreshing and sweet.</p>
-          <div class="item-footer"><span class="item-price">$2.50</span><button class="add-btn">+</button></div>
+          <span class="item-emoji">🌿</span>
+          <h3>Seaweed</h3>
+          <p>Natural Belizean seaweed drink, creamy and refreshing.</p>
+          <div class="item-footer"><span class="item-price">$5.00</span></div>
         </div>
+
       </div>
     </div>
 
@@ -958,11 +1076,11 @@
         <div>
           <p class="section-label">Our Values</p>
           <ul class="promise-list">
-            <li><span class="promise-icon">🔥</span><div><h4>Always Hot</h4><p>Every order cooked fresh to order. No heat lamps ever.</p></div></li>
-            <li><span class="promise-icon">⚡</span><div><h4>Lightning Fast</h4><p>We move quickly so you never have to wait long.</p></div></li>
-            <li><span class="promise-icon">🥚</span><div><h4>Real Ingredients</h4><p>Real eggs, real butter, real bacon. No imitations.</p></div></li>
-            <li><span class="promise-icon">💛</span><div><h4>Big Portions</h4><p>Breakfast that actually fills you up for the day ahead.</p></div></li>
-            <li><span class="promise-icon">🌱</span><div><h4>Veggie Friendly</h4><p>Plenty of plant-based options on every menu section.</p></div></li>
+            <li><span class="promise-icon"></span><div><h4>Always Hot</h4><p>Every order cooked fresh to order. No heat lamps ever.</p></div></li>
+            <li><span class="promise-icon"></span><div><h4>Lightning Fast</h4><p>We move quickly so you never have to wait long.</p></div></li>
+            <li><span class="promise-icon"></span><div><h4>Real Ingredients</h4><p>Real eggs, real butter, real bacon. No imitations.</p></div></li>
+            <li><span class="promise-icon"></span><div><h4>Big Portions</h4><p>Breakfast that actually fills you up for the day ahead.</p></div></li>
+            <li><span class="promise-icon"></span><div><h4>Veggie Friendly</h4><p>Plenty of plant-based options on every menu section.</p></div></li>
           </ul>
         </div>
       </div>
@@ -971,7 +1089,7 @@
 
       <div class="team-strip" style="margin-top:3rem;">
         <h2>Come visit us!</h2>
-        <p>We're open six days a week (closed Wednesdays) and we'd love to be part of your morning routine. Dine in, drive-thru, or take it to go — whatever works best for you.</p>
+        <p>We're open six days a week (closed Wednesdays) and we'd love to be part of your morning routine. Dine in or take it to go — whatever works best for you.</p>
       </div>
     </div>
 
@@ -1009,18 +1127,16 @@
             <p class="section-label">Location</p>
             <h3>Find Us</h3>
             <p class="address-text">
-              123 Morning Boulevard<br>
-              Sunrise District<br>
-              New Metro City, NM 10001
-              <strong>Drive-Thru Available</strong>
-              Dine-in · Takeout · Curbside
+              51 Vernon Street<br>
+              Belize City, Belize
+              Dine-in · Takeout
             </p>
           </div>
           <div class="info-card">
             <p class="section-label">Contact</p>
             <h3>Get in Touch</h3>
             <div class="contact-links">
-              <a href="tel:+15016252341" class="contact-link"><span class="contact-icon">📞</span>(501) 625-2341</a>
+              <a href="tel:5016252341" class="contact-link"><span class="contact-icon">📞</span>(501) 625-2341</a>
             </div>
           </div>
         </div>
@@ -1045,8 +1161,8 @@
     <div class="order-page">
       <div class="order-hero">
         <h2>Your morning, <em>your way.</em></h2>
-        <p>Hot, fresh breakfast made to order. Walk in and we'll have you sorted before you know it.</p>
-        <a class="btn-light" style="display:inline-block;text-decoration:none;" href="https://wa.me/15016252341" target="_blank">Start Your Order</a>
+        <p>Hot, fresh breakfast made to order. Walk in and we'll take care of you.</p>
+        <a class="btn-light" style="display:inline-block;text-decoration:none;" href="https://wa.me/5016252341" target="_blank">Start Your Order</a>
       </div>
 
       <div class="order-options" style="grid-template-columns:1fr;max-width:420px;margin:0 auto;">
@@ -1059,10 +1175,7 @@
 
       </div>
 
-      <div class="order-note">
-        <span style="font-size:1.4rem;">⚡</span>
-        <span><strong>We move fast:</strong> Your order is always cooked fresh and served hot — no long waits, ever.</span>
-      </div>
+
     </div>
 
   </div><!-- /page-order -->
@@ -1075,26 +1188,29 @@
       <span>Fast Food · Est. 2019</span>
     </div>
     <div class="footer-mid">© 2025 Genisia's Fast Food · All Rights Reserved</div>
-    <div class="footer-social">
-      <a href="#" class="social-btn" title="Instagram">📷</a>
-      <a href="#" class="social-btn" title="Facebook">📘</a>
-      <a href="#" class="social-btn" title="TikTok">🎵</a>
-      <a href="#" class="social-btn" title="Twitter/X">🐦</a>
-    </div>
+
   </footer>
 
   <script>
+    // ── MOBILE NAV TOGGLE ──
+    function toggleMobileNav() {
+      const nav = document.getElementById('mobile-nav');
+      const btn = document.getElementById('hamburger');
+      nav.classList.toggle('open');
+      btn.classList.toggle('open');
+      document.body.style.overflow = nav.classList.contains('open') ? 'hidden' : '';
+    }
+
     // ── PAGE ROUTER ──
     function navigate(page) {
-      // hide all pages
       document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-      // show target
       document.getElementById('page-' + page).classList.add('active');
-      // update nav active state
       document.querySelectorAll('.nav-links a').forEach(a => a.classList.remove('active'));
+      document.querySelectorAll('.mobile-nav a').forEach(a => a.classList.remove('active'));
       const navEl = document.getElementById('nav-' + page);
       if (navEl) navEl.classList.add('active');
-      // scroll to top
+      const mnavEl = document.getElementById('mnav-' + page);
+      if (mnavEl) mnavEl.classList.add('active');
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
